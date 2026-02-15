@@ -3,7 +3,7 @@ module.exports = {
         {
             name: 'portfolio-server',
             script: 'index.js',
-            cwd: './server',
+            cwd: './',
             instances: 1,
             autorestart: true,
             watch: false,
