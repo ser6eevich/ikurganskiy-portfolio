@@ -1,0 +1,218 @@
+.portfolioSection {
+    width: 100%;
+    min-height: 100vh;
+    color: var(--color-text);
+    padding: 4rem 2rem;
+    box-sizing: border-box;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-grid);
+    /* Subtle separator */
+}
+
+.title {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    /* Tighter gap for tab-like look */
+    flex-wrap: wrap;
+}
+
+.filterBtn {
+    background: none;
+    border: 1px solid var(--color-grid);
+    /* Default subtle border */
+    color: var(--color-text);
+    opacity: 0.7;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+    /* Technical sharp corners */
+}
+
+.filterBtn:hover {
+    opacity: 1;
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.filterBtn.active {
+    opacity: 1;
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+}
+
+/* Bento Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    grid-auto-flow: dense;
+    /* Packs empty spaces */
+}
+
+/* Card Sizes */
+.card {
+    position: relative;
+    background: var(--color-grid);
+    /* Slight bg for cards */
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(0.98);
+}
+
+/* Aspect Ratios & Spans */
+.tall {
+    grid-row: span 2;
+    aspect-ratio: 9/16;
+}
+
+.wide {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+}
+
+.square {
+    aspect-ratio: 1/1;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+
+    .wide {
+        grid-column: span 2;
+        /* wide items still span 2 */
+        aspect-ratio: 16/9;
+    }
+
+    .tall {
+        grid-row: span 1;
+        aspect-ratio: 9/16;
+    }
+
+    .cardHeader {
+        font-size: 0.6rem;
+    }
+
+    .cardTitle {
+        font-size: 0.9rem;
+    }
+
+    .cardInfo {
+        padding: 0.8rem;
+    }
+}
+
+/* Media */
+.mediaContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    filter: grayscale(100%);
+}
+
+.card:hover .poster {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* Info Overlay */
+.cardInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: #fff;
+    /* Always white text on overlay */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.card:hover .cardInfo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.cardTitle {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Play Icon */
+.playIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 50px;
+    height: 50px;
+    background: var(--color-accent);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .playIcon {
+    transform: translate(-50%, -50%) scale(1);
+}

@@ -1,0 +1,258 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* 3D Scene Container - Hidden on Mobile */
+.sceneContainer {
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile Background - Visible only on Mobile */
+.mobileBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
+    /* You can add a subtle image here if needed */
+}
+
+@media (max-width: 768px) {
+    .container {
+        display: none;
+    }
+}
+
+.gridParams {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: radial-gradient(var(--color-grid) 1.5px, transparent 1.5px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.uiContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Push footer to bottom */
+    padding: 2rem 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+/* HEADER */
+/* HEADER */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    /* Max z-index */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    pointer-events: auto;
+    padding: 2rem 3rem;
+
+    /* Default Transparent */
+    background: transparent;
+    backdrop-filter: blur(0px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Optional: reduce padding on scroll could be added with JS, but keeping simple for now */
+
+.headerScrolled {
+    padding: 1rem 3rem;
+    /* Plaque Effect: Solid enough to hide content behind */
+    background: var(--color-bg);
+    background: color-mix(in srgb, var(--color-bg), transparent 5%);
+    /* Almost solid */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-grid);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.leftBlock .description {
+    max-width: 600px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    pointer-events: none;
+    /* Allow click-through to 3D scene */
+    user-select: none;
+    /* Optional: prevent selection if causing issues */
+}
+
+.rightBlock {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+/* MAIN GRID - Absolute Centering */
+.mainGrid {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    /* Match container padding */
+    pointer-events: none;
+    /* Changed from auto to none to allow 3D interaction */
+    box-sizing: border-box;
+}
+
+/* FOOTER */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    /* Changed from auto to none */
+    width: 100%;
+}
+
+.scrollBlock {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-5px);
+    }
+
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+.contactBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+.blockLabel {
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.actionButton {
+    background: transparent;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    /* Re-enable pointer events for button */
+}
+
+.actionButton:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+}
+
+.contactBlock {
+    align-items: flex-end;
+}
+
+/* Navigation Links */
+.navLink {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+}
+
+.navLink:hover {
+    color: var(--color-accent);
+}
+
+.rightHeaderGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.themeToggle {
+    background: none;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 4px;
+    /* Slight roundness */
+}
+
+.themeToggle:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+}
+
+/* TECH LABELS */
+.techLabel {
+    position: absolute;
+    font-size: 0.6rem;
+    opacity: 0.4;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+    user-select: none;
+    pointer-events: none;
+}

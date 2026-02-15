@@ -1,0 +1,113 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    /* Max z-index */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    pointer-events: auto;
+    padding: 2rem 3rem;
+
+    /* Default Transparent */
+    background: transparent;
+    backdrop-filter: blur(0px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+.headerScrolled {
+    padding: 1rem 3rem;
+    /* Plaque Effect */
+    background: var(--color-bg);
+    background: color-mix(in srgb, var(--color-bg), transparent 5%);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-grid);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.nav {
+    display: flex;
+    gap: 1rem;
+    font-weight: 500;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.separator {
+    opacity: 0.3;
+}
+
+.navLink {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+    /* text-transform: uppercase; Removed per user request */
+}
+
+.navLink:hover {
+    color: var(--color-accent);
+}
+
+.rightHeaderGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.themeToggle {
+    background: none;
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.themeToggle:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+}
+
+.timeLoc {
+    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem 1.5rem;
+    }
+
+    .timeLoc {
+        display: none;
+    }
+
+    .nav {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .logo {
+        font-size: 0.8rem;
+    }
+}

@@ -1,0 +1,30 @@
+.navBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: transform 0.2s ease;
+}
+
+@media (hover: hover) {
+    .navBtn:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.navBtn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .navBtn :global(.hero-title) {
+        font-size: 1.5rem !important;
+        /* Override default 2.2rem */
+        line-height: 1.2;
+    }
+
+    .navBtn :global(.hero-subtitle) {
+        font-size: 0.7rem !important;
+        /* Smaller subtitle */
+    }
+}

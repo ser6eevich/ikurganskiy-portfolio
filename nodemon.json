@@ -1,0 +1,9 @@
+{
+    "ignore": [
+        "../uploads/*",
+        "uploads/*"
+    ],
+    "watch": [
+        "server"
+    ]
+}

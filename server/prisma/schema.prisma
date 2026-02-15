@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  title       String
+  slug        String          @unique
+  thumbnail   String?
+  category    String
+  description String?
+  isPublished Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  elements    CanvasElement[]
+}
+
+model CanvasElement {
+  id        Int     @id @default(autoincrement())
+  type      String // 'text', 'image', 'video'
+  content   String
+  x         Int
+  y         Int
+  width     Int
+  height    Int
+  styles    String? // JSON string for rotation, z-index, color, etc.
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ArchiveItem {
+  id        Int      @id @default(autoincrement())
+  title     String
+  fileUrl   String
+  type      String   // 'image' or 'video'
+  description String? // Description
+  category  String   // 'REELS', 'YOUTUBE', etc.
+  orientation String? // 'vertical', 'horizontal', 'square'
+  thumbnail String?   // Custom cover image
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+}

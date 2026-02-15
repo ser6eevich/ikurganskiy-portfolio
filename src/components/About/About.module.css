@@ -1,0 +1,209 @@
+.aboutSection {
+    width: 100%;
+    padding: 6rem 2rem;
+    color: var(--color-text);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.header {
+    margin-bottom: 4rem;
+    border-bottom: 1px solid var(--color-grid);
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+/* Column 1: Manifesto */
+.manifestoColumn {
+    padding-top: 2rem;
+}
+
+.manifestoText {
+    font-family: var(--font-body);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin: 0 0 4rem 0;
+    /* Added bottom margin */
+    letter-spacing: -0.03em;
+}
+
+/* Tech Specs */
+.techSpecs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--color-grid);
+    padding-top: 2rem;
+}
+
+.techItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.techValue {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.techLabel {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.techSub {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+/* Column 2: Image */
+.imageColumn {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profileImage {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* Media Queries for Responsive */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .manifestoText {
+        font-size: 2rem;
+    }
+
+    .imageColumn {
+        order: -1;
+        /* Image first on mobile? Or keep logical flow */
+    }
+}
+
+.bioContainer {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-top: 0.5rem;
+    /* Align visually with large text */
+}
+
+.bioText {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.bioText p {
+    margin-bottom: 1rem;
+}
+
+/* Stats Grid */
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-grid);
+    border-bottom: 1px solid var(--color-grid);
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.statLabel {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.5;
+}
+
+.statValue {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Skills */
+.skillList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skillHeader {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.6;
+    margin: 0;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.list li {
+    display: flex;
+    align-items: center;
+}
+
+.list li::before {
+    content: '→';
+    margin-right: 0.5rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 900px) {
+    .manifestoText {
+        font-size: 2rem;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}

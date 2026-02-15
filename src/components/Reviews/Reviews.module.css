@@ -1,0 +1,98 @@
+.reviewsSection {
+    width: 100%;
+    padding: 4rem 2rem;
+    color: var(--color-text);
+    box-sizing: border-box;
+    /* Top border to separate from About */
+    border-top: 1px solid var(--color-grid);
+}
+
+.header {
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    padding: 2rem;
+    /* Glassmorphism / Plaque Look */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-text);
+}
+
+.clientInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.client {
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.role {
+    opacity: 0.6;
+}
+
+.text {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    opacity: 0.5;
+    margin-top: auto;
+}
+
+.stars {
+    letter-spacing: 0.2rem;
+}

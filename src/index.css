@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&display=swap');
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-grid: rgba(0, 0, 0, 0.08);
+  --color-accent: #ccff00;
+  /* Acid Lime / Neon Green */
+  --font-body: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'New York', 'Source Serif 4', 'Playfair Display', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --max-content-width: 1000px;
+  --section-spacing: 140px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  background-image: radial-gradient(var(--color-grid) 1.5px, transparent 1.5px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+}
+
+#root {
+  width: 100%;
+}
+
+/* Typography Utilities */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.case-study-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-column {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-spacing {
+  padding: var(--section-spacing) 0;
+}
+
+.hero-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  line-height: 1.05;
+}
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 2rem;
+}
+
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.block-text {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #333;
+  font-weight: 400;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.media-full {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 3rem 0;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+  background: #fdfdfd;
+}
+
+@media (max-width: 768px) {
+  .media-full {
+    width: calc(100% - 3rem) !important;
+    /* Force padding/margin on mobile */
+    margin: 2rem auto !important;
+  }
+}
+
+.media-full img,
+.media-full video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-spacing: 100px;
+    /* Increased from 80px */
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    /* Slightly smaller to prevent crowding */
+  }
+
+  .block-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .content-column {
+    padding: 0 2rem;
+    /* More space on edges (was 1.5rem) */
+  }
+
+  .section-spacing {
+    padding: 80px 0;
+    /* More breathe spacing */
+  }
+}
+
+.project-hero-spacing {
+  padding-top: 180px;
+}
+
+@media (max-width: 768px) {
+  .project-hero-spacing {
+    padding-top: 100px;
+  }
+
+  .project-hero-spacing {
+    padding-top: 100px;
+  }
+
+  /* Navigation Button Mobile Fix */
+  .hero-title span.serif-accent {
+    display: block;
+    /* Break arrow/cross to new line if needed? Or just reduce size? */
+    font-size: 0.8em;
+  }
+}
+
+/* Responsive Grid Utility */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .grid-2-col {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    /* Increased from 2rem */
+  }
+}

@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+dist/
+build/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.vscode/
+.idea/
+.visualstudio/
+
+# Prisma
+/server/prisma/dev.db
+/server/prisma/dev.db-journal
+
+# Logs
+*.log
+server_log.txt
+
+# Temp/Drafts
+temp/
+projects/
+uploads/
+debug_upload.ps1
+CoverflowCarousel/
+!src/components/CoverflowCarousel/
