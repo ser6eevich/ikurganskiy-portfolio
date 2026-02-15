@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Portfolio.module.css';
 import SmartVideoPlayer from '../SmartVideoPlayer';
 
@@ -115,64 +115,87 @@ const Portfolio = () => {
                         (!project.orientation && project.type === 'video' && project.category === 'REELS');
 
                     const youtubeId = project.type === 'youtube' ? getYoutubeId(project.fileUrl) : null;
-                    // Prioritize custom thumbnail
                     const thumbnailUrl = project.thumbnail || (youtubeId
                         ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
                         : project.fileUrl);
 
                     return (
-                        <div
+                        <ProjectCard
                             key={project.id}
-                            className={`${styles.card} ${styles[isVertical ? 'tall' : 'wide']}`}
+                            project={project}
+                            isVertical={isVertical}
+                            thumbnailUrl={thumbnailUrl}
                             onClick={() => setSelectedProject(project)}
-                        >
-                            <div className={styles.mediaContainer}>
-                                {project.type === 'video' ? (
-                                    <video
-                                        src={project.fileUrl}
-                                        className={styles.poster}
-                                        poster={project.thumbnail || undefined}
-                                        muted
-                                        loop
-                                        playsInline
-                                        onMouseEnter={e => {
-                                            const playPromise = e.target.play();
-                                            if (playPromise !== undefined) {
-                                                playPromise.catch(error => {
-                                                    // Auto-play was prevented
-                                                    console.log('Autoplay prevented');
-                                                });
-                                            }
-                                        }}
-                                        onMouseLeave={e => {
-                                            e.target.pause();
-                                            e.target.currentTime = 0;
-                                            if (project.thumbnail) {
-                                                e.target.load(); // Restore poster
-                                            }
-                                        }}
-                                    />
-                                ) : (
-                                    <img src={thumbnailUrl} alt={project.title} className={styles.poster} />
-                                )}
-                            </div>
-
-                            <div className={styles.cardInfo}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.year}>[{new Date(project.createdAt).getFullYear()}]</span>
-                                    <span className={styles.category}>{project.category}</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{project.title}</h3>
-                            </div>
-
-                            {/* Hover overlay icon */}
-                            <div className={styles.playIcon}>▶</div>
-                        </div>
+                        />
                     );
                 })}
             </div>
 
         </section>
+    );
+};
+
+// --- Optimized Project Card Component ---
+const ProjectCard = ({ project, isVertical, thumbnailUrl, onClick }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const videoRef = useRef(null);
+
+    return (
+        <div
+            className={`${styles.card} ${styles[isVertical ? 'tall' : 'wide']}`}
+            onClick={onClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div className={styles.mediaContainer}>
+                {project.type === 'video' ? (
+                    <>
+                        <img
+                            src={thumbnailUrl}
+                            alt={project.title}
+                            className={styles.poster}
+                            style={{
+                                opacity: isHovered ? 0 : 1,
+                                transition: 'opacity 0.3s ease',
+                                position: 'absolute',
+                                top: 0, left: 0, width: '100%', height: '100%',
+                                objectFit: 'cover',
+                                zIndex: 1
+                            }}
+                        />
+                        {isHovered && (
+                            <video
+                                ref={videoRef}
+                                src={project.fileUrl}
+                                className={styles.poster}
+                                muted
+                                loop
+                                playsInline
+                                autoPlay
+                                style={{ zIndex: 2 }}
+                                onLoadedData={() => {
+                                    if (videoRef.current) {
+                                        videoRef.current.play().catch(() => { });
+                                    }
+                                }}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <img src={thumbnailUrl} alt={project.title} className={styles.poster} />
+                )}
+            </div>
+
+            <div className={styles.cardInfo}>
+                <div className={styles.cardHeader}>
+                    <span className={styles.year}>[{new Date(project.createdAt).getFullYear()}]</span>
+                    <span className={styles.category}>{project.category}</span>
+                </div>
+                <h3 className={styles.cardTitle}>{project.title}</h3>
+            </div>
+
+            <div className={styles.playIcon}>▶</div>
+        </div>
     );
 };
 
