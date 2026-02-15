@@ -40,16 +40,9 @@ if (!fs.existsSync(uploadsDir)) {
 }
 app.use('/uploads', express.static(uploadsDir));
 
-// Debug Route
-app.get('/api/debug-config', (req, res) => {
-    res.json({
-        cwd: process.cwd(),
-        __dirname,
-        uploadsDir,
-        exists: fs.existsSync(uploadsDir),
-        files: fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : []
-    });
-});
+// Serve Frontend Static Files
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -58,8 +51,14 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/telegram', telegramRoutes);
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Portfolio API is running' });
+// Fix: SPA Routing (serve index.html for unknown routes)
+app.get('*', (req, res) => {
+    const indexPath = path.join(distPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.json({ message: 'Portfolio API is running (Build your frontend to see the site)' });
+    }
 });
 
 // Global Error Handler
