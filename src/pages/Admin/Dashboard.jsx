@@ -38,13 +38,13 @@ const Dashboard = () => {
         if (!token) navigate('/admin/login');
 
         // Fetch Projects
-        fetch('http://localhost:5000/api/projects')
+        fetch('/api/projects')
             .then(res => res.json())
             .then(data => setProjects(data))
             .catch(err => console.error(err));
 
         // Fetch Archive
-        fetch('http://localhost:5000/api/archive')
+        fetch('/api/archive')
             .then(res => res.json())
             .then(data => setArchive(data))
             .catch(err => console.error(err));
@@ -64,7 +64,7 @@ const Dashboard = () => {
     const uploadFileSimple = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        const res = await fetch('http://localhost:5000/api/upload', {
+        const res = await fetch('/api/upload', {
             method: 'POST',
             body: formData
         });
@@ -82,7 +82,7 @@ const Dashboard = () => {
                 finalThumbnailUrl = await uploadFileSimple(editThumbnail);
             }
 
-            const res = await fetch(`http://localhost:5000/api/archive/${editItem.id}`, {
+            const res = await fetch(`/api/archive/${editItem.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -172,7 +172,7 @@ const Dashboard = () => {
 
             // --- YOUTUBE UPLOAD PATH ---
             if (uploadType === 'youtube') {
-                const res = await fetch('http://localhost:5000/api/archive', {
+                const res = await fetch('/api/archive', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -195,7 +195,7 @@ const Dashboard = () => {
                 formData.append('file', uploadFile);
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://localhost:5000/api/upload');
+                xhr.open('POST', '/api/upload');
 
                 xhr.upload.onprogress = (event) => {
                     if (event.lengthComputable) {
@@ -212,7 +212,7 @@ const Dashboard = () => {
                         const type = uploadFile.type.startsWith('video') ? 'video' : 'image';
 
                         try {
-                            const res = await fetch('http://localhost:5000/api/archive', {
+                            const res = await fetch('/api/archive', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
@@ -258,7 +258,7 @@ const Dashboard = () => {
         if (!confirm('Вы уверены, что хотите удалить этот проект?')) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/projects/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
             const data = await res.json();
 
             if (!res.ok) throw new Error(data.error || 'Delete failed');
@@ -273,7 +273,7 @@ const Dashboard = () => {
     const deleteArchiveItem = async (id) => {
         if (!confirm('Удалить эту работу?')) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/archive/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/archive/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Delete failed');
             setArchive(archive.filter(item => item.id !== id));
         } catch (err) {

@@ -8,7 +8,7 @@ const Featured = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/projects')
+        fetch('/api/projects')
             .then(res => res.json())
             .then(data => {
                 // Take first 6 projects

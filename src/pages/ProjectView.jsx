@@ -31,7 +31,7 @@ const ProjectView = ({ source = 'project' }) => {
     // Load Project Data
     useEffect(() => {
         const endpoint = source === 'archive' ? 'archive' : 'projects';
-        fetch(`http://localhost:5000/api/${endpoint}/${id}`)
+        fetch(`/api/${endpoint}/${id}`)
             .then(res => res.json())
             .then(data => {
                 setProject(data);
@@ -46,7 +46,7 @@ const ProjectView = ({ source = 'project' }) => {
     // Fetch List for Navigation
     useEffect(() => {
         const endpoint = source === 'archive' ? 'archive' : 'projects';
-        fetch(`http://localhost:5000/api/${endpoint}`)
+        fetch(`/api/${endpoint}`)
             .then(res => res.json())
             .then(data => setProjectsList(data))
             .catch(err => console.error("Failed to load projects list", err));
@@ -151,7 +151,7 @@ const ProjectView = ({ source = 'project' }) => {
                 >
                     <div style={{ position: 'relative', width: '100%', maxWidth: '1000px', aspectRatio: '9/16', maxHeight: '90vh' }} onClick={e => e.stopPropagation()}>
                         <video
-                            src={`http://localhost:5000/uploads/${selectedVideo}`}
+                            src={`/uploads/${selectedVideo}`}
                             controls
                             autoPlay
                             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -250,7 +250,7 @@ const ProjectView = ({ source = 'project' }) => {
                             transition={{ duration: 1.2 }}
                             style={{ maxWidth: '1200px', margin: '0 auto 100px auto' }}
                         >
-                            <img src="http://localhost:5000/uploads/preview_true_false.jpg" alt="Project Preview" />
+                            <img src="/uploads/preview_true_false.jpg" alt="Project Preview" />
                         </motion.div>
 
                         {/* Block 1: The Challenge */}
@@ -268,7 +268,7 @@ const ProjectView = ({ source = 'project' }) => {
                                 Монтаж исходных материалов • Сборка лучших дублей, выстраивание правильного тайминга и удаление пауз. Монтаж задает темп всему выпуску.
                             </div>
                             <div className="media-full">
-                                <img src="http://localhost:5000/uploads/dynamics.gif" alt="Dynamic Editing" />
+                                <img src="/uploads/dynamics.gif" alt="Dynamic Editing" />
                             </div>
                         </Section>
 
@@ -287,10 +287,10 @@ const ProjectView = ({ source = 'project' }) => {
                                     {/* Intro GIF Grid */}
                                     <div className="grid-2-col" style={{ gap: '2rem' }}>
                                         <div className="media-full" style={{ margin: 0 }}>
-                                            <img src="http://localhost:5000/uploads/intro_true_false.gif" alt="Intro Animation Color" />
+                                            <img src="/uploads/intro_true_false.gif" alt="Intro Animation Color" />
                                         </div>
                                         <div className="media-full" style={{ margin: 0 }}>
-                                            <img src="http://localhost:5000/uploads/intro_gray_true_false.gif" alt="Intro Animation Gray" />
+                                            <img src="/uploads/intro_gray_true_false.gif" alt="Intro Animation Gray" />
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +299,7 @@ const ProjectView = ({ source = 'project' }) => {
                                     <h3 className="hero-title" style={{ fontSize: '1.8rem' }}>Инфографика <span className="serif-accent">(Вопрос о факте)</span></h3>
                                     <p style={{ color: '#666', marginBottom: '2rem' }}>Максимальная читаемость даже на экранах смартфонов.</p>
                                     <div className="media-full">
-                                        <img src="http://localhost:5000/uploads/fact.gif" alt="Fact Animation" />
+                                        <img src="/uploads/fact.gif" alt="Fact Animation" />
                                     </div>
                                 </div>
 
@@ -307,7 +307,7 @@ const ProjectView = ({ source = 'project' }) => {
                                     <h3 className="hero-title" style={{ fontSize: '1.8rem' }}>Анимация <span className="serif-accent">рассказа фактов</span></h3>
                                     <p style={{ color: '#666', marginBottom: '2rem' }}>Анимация работает как поддерживающий элемент, который визуализирует факты.</p>
                                     <div className="media-full">
-                                        <img src="http://localhost:5000/uploads/facts_animation.gif" alt="Facts Animation" />
+                                        <img src="/uploads/facts_animation.gif" alt="Facts Animation" />
                                     </div>
                                 </div>
                             </div>
@@ -320,13 +320,13 @@ const ProjectView = ({ source = 'project' }) => {
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <h4 className="font-mono" style={{ fontSize: '0.8rem', marginBottom: '1.5rem', color: '#888' }}>РЕАКЦИЯ НА ОТВЕТ</h4>
                                     <div className="media-full" style={{ margin: 0 }}>
-                                        <img src="http://localhost:5000/uploads/reaction.gif" alt="Reaction Animation" />
+                                        <img src="/uploads/reaction.gif" alt="Reaction Animation" />
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <h4 className="font-mono" style={{ fontSize: '0.8rem', marginBottom: '1.5rem', color: '#888' }}>ПЕРЕХОДЫ</h4>
                                     <div className="media-full" style={{ margin: 0 }}>
-                                        <img src="http://localhost:5000/uploads/transition.gif" alt="Transition Animation" />
+                                        <img src="/uploads/transition.gif" alt="Transition Animation" />
                                     </div>
                                 </div>
                             </div>
@@ -446,7 +446,7 @@ const ProjectView = ({ source = 'project' }) => {
                                     Anar Dreams <span className="serif-accent">x</span>
                                 </h1>
                                 <img
-                                    src="http://localhost:5000/uploads/iba.jpg"
+                                    src="/uploads/iba.jpg"
                                     alt="IBA Logo"
                                     style={{ height: '60px', objectFit: 'contain', borderRadius: '4px' }}
                                 />
@@ -475,7 +475,7 @@ const ProjectView = ({ source = 'project' }) => {
                                         border: '1px solid rgba(255,255,255,0.1)'
                                     }}>
                                         <img
-                                            src="http://localhost:5000/uploads/anar.webp"
+                                            src="/uploads/anar.webp"
                                             alt="Anar Dreams"
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                         />

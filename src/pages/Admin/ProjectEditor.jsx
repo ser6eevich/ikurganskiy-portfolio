@@ -40,7 +40,7 @@ const ProjectEditor = () => {
         if (id === 'new') {
             setProject({ title: 'Новый проект', slug: '', category: 'REELS', thumbnail: '' });
         } else {
-            fetch(`http://localhost:5000/api/projects/${id}`)
+            fetch(`/api/projects/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     setProject(data);
@@ -228,7 +228,7 @@ const ProjectEditor = () => {
         formData.append('file', file);
 
         try {
-            const res = await fetch('http://localhost:5000/api/upload', { method: 'POST', body: formData });
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
             const data = await res.json();
             if (isThumbnail) {
                 setProject(prev => ({ ...prev, thumbnail: data.url }));
@@ -272,7 +272,7 @@ const ProjectEditor = () => {
         let projectId = id;
 
         if (id === 'new') {
-            const res = await fetch('http://localhost:5000/api/projects', {
+            const res = await fetch('/api/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(project)
@@ -282,13 +282,13 @@ const ProjectEditor = () => {
             projectId = data.id;
             navigate(`/admin/project/${projectId}`, { replace: true });
         } else {
-            await fetch(`http://localhost:5000/api/projects/${projectId}`, {
+            await fetch(`/api/projects/${projectId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(project)
             });
         }
-        await fetch(`http://localhost:5000/api/projects/${projectId}/elements`, {
+        await fetch(`/api/projects/${projectId}/elements`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ elements })

@@ -150,7 +150,7 @@ const CoverflowCarousel = ({ items, onSelect }) => {
                             }}
                         >
                             <video
-                                src={`http://localhost:5000/uploads/${item}`}
+                                src={`/uploads/${item}`}
                                 style={{
                                     width: '100%',
                                     height: '100%',
