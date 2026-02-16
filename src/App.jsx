@@ -49,7 +49,7 @@ function AnimatedRoutes({ theme, toggleTheme }) {
 
     return (
         <AnimatePresence mode="wait">
-            <div className={`app-container ${theme}`} style={{ width: '100vw', minHeight: '100vh', background: 'var(--color-bg)' }}>
+            <div className={`app-container ${theme}`} style={{ width: '100%', minHeight: '100vh', background: 'var(--color-bg)' }}>
                 <Routes location={location} key={location.pathname}>
                     <Route path="/" element={<Home theme={theme} toggleTheme={toggleTheme} />} />
                     <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />

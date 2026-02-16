@@ -18,9 +18,9 @@ const Contact = ({ onOpenModal }) => {
                     </button>
 
                     <div className={styles.links}>
-                        <a href="https://t.me/ivan_kurgansky" target="_blank" rel="noreferrer" className={styles.socialLink}>TELEGRAM</a>
-                        <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.socialLink}>INSTAGRAM</a>
-                        <a href="mailto:hello@ivan.com" className={styles.socialLink}>EMAIL</a>
+                        <a href="https://t.me/ser6eevich" target="_blank" rel="noreferrer" className={styles.socialLink}>TELEGRAM</a>
+                        <a href="https://instagram.com/ser6eevich" target="_blank" rel="noreferrer" className={styles.socialLink}>INSTAGRAM</a>
+                        <a href="mailto:kuraga00707@gmail.com" className={styles.socialLink}>EMAIL</a>
                     </div>
                 </div>
 
