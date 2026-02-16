@@ -26,7 +26,7 @@ const About = () => {
                             <div className={styles.techSub}>REELS & SHORTS</div>
                         </div>
                         <div className={styles.techItem}>
-                            <div className={styles.techValue}>20</div>
+                            <div className={styles.techValue}>5</div>
                             <div className={styles.techLabel}>ПРОЕКТОВ</div>
                             <div className={styles.techSub}>GLOBAL BRANDS</div>
                         </div>
@@ -47,7 +47,7 @@ const About = () => {
                 <div className={styles.bioContainer}>
                     <div className={styles.bioText}>
                         <p>
-                            Привет. Я Иван Курганский. Режиссер монтажа и Motion-дизайнер с 10-летним опытом.
+                            Привет. Я Иван Курганский. Видеомонтажер с 10-летним опытом.
                         </p>
                         <p>
                             Моя цель — создавать визуальный контент, который не просто выглядит красиво, но и решает задачи бизнеса. Будь то динамичный Reels для бренда или сложный документальный проект.
