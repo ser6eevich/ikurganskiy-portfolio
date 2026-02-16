@@ -18,9 +18,12 @@ const Home = ({ theme, toggleTheme }) => {
         if (location.state?.targetId) {
             const elem = document.getElementById(location.state.targetId);
             if (elem) {
-                setTimeout(() => {
-                    elem.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
+                // Instant scroll instead of smooth
+                const top = elem.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo(0, top);
+
+                // Clear state to prevent re-triggering on theme switch/re-render
+                window.history.replaceState({}, document.title);
             }
             return;
         }
