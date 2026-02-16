@@ -189,6 +189,8 @@ const ProjectCard = ({ project, isVertical, thumbnailUrl, onClick }) => {
                                 muted
                                 loop
                                 playsInline
+                                controlsList="nodownload"
+                                onContextMenu={(e) => e.preventDefault()}
                                 style={{
                                     opacity: 1,
                                     zIndex: 1

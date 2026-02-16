@@ -97,6 +97,8 @@ const SmartVideoPlayer = ({ src, title, description, type, thumbnail, onClose })
                             autoPlay
                             playsInline
                             onLoadedMetadata={handleLoadedMetadata}
+                            controlsList="nodownload"
+                            onContextMenu={(e) => e.preventDefault()}
                         />
                     )}
                 </div>

@@ -7,11 +7,17 @@ import Portfolio from '../components/Portfolio';
 import About from '../components/About';
 import Contact from '../components/Contact';
 import Header from '../components/Header';
+import SuccessToast from '../components/SuccessToast';
 import ContactModal from '../components/ContactModal';
 
 const Home = ({ theme, toggleTheme }) => {
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleSuccess = () => {
+        setShowSuccess(true);
+    };
 
     useEffect(() => {
         // 1. If targetId provided, prioritize it
@@ -60,8 +66,20 @@ const Home = ({ theme, toggleTheme }) => {
             <About />
             <Contact onOpenModal={openContactModal} />
 
+            <SuccessToast
+                isVisible={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                title="ЗАЯВКА ОТПРАВЛЕНА"
+                message="Скоро свяжемся!"
+            />
+
             <AnimatePresence>
-                {isModalOpen && <ContactModal onClose={() => setIsModalOpen(false)} />}
+                {isModalOpen && (
+                    <ContactModal
+                        onClose={() => setIsModalOpen(false)}
+                        onSuccess={handleSuccess}
+                    />
+                )}
             </AnimatePresence>
         </motion.div>
     );

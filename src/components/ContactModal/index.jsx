@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { motion } from 'framer-motion';
 import styles from './ContactModal.module.css';
-import SuccessToast from '../SuccessToast';
 
 const FORMAT_TAGS = [
     'REELS / SHORTS',
@@ -12,8 +12,7 @@ const FORMAT_TAGS = [
     'OTHER'
 ];
 
-const ContactModal = ({ onClose }) => {
-    const [isClosing, setIsClosing] = useState(false);
+const ContactModal = ({ onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         name: '',
         contact: '',
@@ -21,13 +20,7 @@ const ContactModal = ({ onClose }) => {
         formats: []
     });
 
-    const [showToast, setShowToast] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const handleClose = () => {
-        setIsClosing(true);
-        setTimeout(onClose, 300);
-    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,11 +51,8 @@ const ContactModal = ({ onClose }) => {
             const data = await response.json();
 
             if (response.ok) {
-                setShowToast(true);
-                // Delay close to show toast or let user close
-                setTimeout(() => {
-                    handleClose();
-                }, 2000);
+                onSuccess(); // Trigger toast in parent
+                onClose();   // Close modal immediately (smoothly via AnimatePresence)
             } else {
                 alert(`Ошибка: ${data.error || 'Не удалось отправить'}`);
             }
@@ -77,7 +67,7 @@ const ContactModal = ({ onClose }) => {
     // Close on Escape
     useEffect(() => {
         const handleEsc = (e) => {
-            if (e.key === 'Escape') handleClose();
+            if (e.key === 'Escape') onClose();
         };
         window.addEventListener('keydown', handleEsc);
         document.body.style.overflow = 'hidden';
@@ -85,20 +75,25 @@ const ContactModal = ({ onClose }) => {
             window.removeEventListener('keydown', handleEsc);
             document.body.style.overflow = 'unset';
         };
-    }, []);
+    }, [onClose]);
 
     const modalContent = (
-        <div className={`${styles.modalOverlay} ${isClosing ? styles.closing : ''}`} onClick={handleClose}>
-
-            <SuccessToast
-                isVisible={showToast}
-                onClose={() => setShowToast(false)}
-                title="ЗАЯВКА ОТПРАВЛЕНА"
-                message="Скоро свяжемся!"
-            />
-
-            <div className={`${styles.modalContent} ${isClosing ? styles.closing : ''}`} onClick={e => e.stopPropagation()}>
-                <button className={styles.closeBtn} onClick={handleClose}>×</button>
+        <motion.div
+            className={styles.modalOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+        >
+            <motion.div
+                className={styles.modalContent}
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={e => e.stopPropagation()}
+            >
+                <button className={styles.closeBtn} onClick={onClose}>×</button>
 
                 <h2 className={styles.title}>Обсудить проект</h2>
 
@@ -160,8 +155,8 @@ const ContactModal = ({ onClose }) => {
                     </button>
 
                 </form>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 
     return ReactDOM.createPortal(modalContent, document.body);
