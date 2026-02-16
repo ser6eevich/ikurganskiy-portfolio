@@ -151,7 +151,7 @@ const ProjectView = ({ source = 'project' }) => {
                 >
                     <div style={{ position: 'relative', width: '100%', maxWidth: '1000px', aspectRatio: '9/16', maxHeight: '90vh' }} onClick={e => e.stopPropagation()}>
                         <video
-                            src={`/uploads/${selectedVideo}`}
+                            src={selectedVideo.startsWith('http') ? selectedVideo : `/uploads/${selectedVideo}`}
                             controls
                             autoPlay
                             style={{ width: '100%', height: '100%', objectFit: 'contain' }}

@@ -174,7 +174,7 @@ const CarouselItem = ({ item, offset, isActive, dimensions, onSelect, onActivate
             {(isActive || isHovered) ? (
                 <video
                     ref={videoRef}
-                    src={`/uploads/${item}`}
+                    src={item.startsWith('http') ? item : `/uploads/${item}`}
                     style={{
                         width: '100%',
                         height: '100%',
