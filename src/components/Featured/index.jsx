@@ -50,7 +50,7 @@ const Featured = () => {
                 {projects.map((project) => (
                     <div key={project.id} className={styles.card} onClick={() => navigate(`/project/${project.id}`)} style={{ cursor: 'pointer' }}>
                         <div className={styles.mediaWrapper}>
-                            {/* Check if thumbnail exists, otherwise placeholder */}
+                            {/* Check if thumbnail exists, otherwise placeholder or video frame */}
                             {project.thumbnail ? (
                                 <img
                                     src={project.thumbnail}
@@ -58,9 +58,20 @@ const Featured = () => {
                                     className={styles.image}
                                 />
                             ) : (
-                                <div style={{ width: '100%', height: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontFamily: 'monospace' }}>
-                                    NO PREVIEW
-                                </div>
+                                project.type === 'video' ? (
+                                    <video
+                                        src={`${project.fileUrl}#t=0.1`}
+                                        className={styles.image}
+                                        muted
+                                        playsInline
+                                        onLoadedData={(e) => e.target.pause()}
+                                        style={{ background: '#222' }}
+                                    />
+                                ) : (
+                                    <div style={{ width: '100%', height: '100%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontFamily: 'monospace' }}>
+                                        NO PREVIEW
+                                    </div>
+                                )
                             )}
                             <div className={styles.overlay}>
                                 <button className={styles.watchBtn}>СМОТРЕТЬ КЕЙС</button>

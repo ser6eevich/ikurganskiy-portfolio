@@ -154,46 +154,56 @@ const ProjectCard = ({ project, isVertical, thumbnailUrl, onClick }) => {
                 {project.type === 'video' ? (
                     <>
                         {thumbnailUrl ? (
-                            <img
-                                src={thumbnailUrl}
-                                alt={project.title}
-                                className={styles.poster}
-                                style={{
-                                    opacity: isHovered ? 0 : 1,
-                                    transition: 'opacity 0.3s ease',
-                                    position: 'absolute',
-                                    top: 0, left: 0, width: '100%', height: '100%',
-                                    objectFit: 'cover',
-                                    zIndex: 1
-                                }}
-                            />
+                            <>
+                                <img
+                                    src={thumbnailUrl}
+                                    alt={project.title}
+                                    className={styles.poster}
+                                    style={{
+                                        opacity: isHovered ? 0 : 1,
+                                        transition: 'opacity 0.3s ease',
+                                        position: 'absolute',
+                                        top: 0, left: 0, width: '100%', height: '100%',
+                                        objectFit: 'cover',
+                                        zIndex: 1
+                                    }}
+                                />
+                                {isHovered && (
+                                    <video
+                                        ref={videoRef}
+                                        src={project.fileUrl}
+                                        className={styles.poster}
+                                        muted
+                                        loop
+                                        playsInline
+                                        autoPlay
+                                        style={{ zIndex: 2 }}
+                                    />
+                                )}
+                            </>
                         ) : (
-                            <div
-                                className={styles.poster}
-                                style={{
-                                    background: '#222',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    opacity: isHovered ? 0 : 1,
-                                }}
-                            >
-                                <span style={{ color: '#444', fontSize: '2rem' }}>🎬</span>
-                            </div>
-                        )}
-                        {isHovered && (
                             <video
                                 ref={videoRef}
-                                src={project.fileUrl}
+                                src={`${project.fileUrl}#t=0.1`}
                                 className={styles.poster}
                                 muted
                                 loop
                                 playsInline
-                                autoPlay
-                                style={{ zIndex: 2 }}
-                                onLoadedData={() => {
-                                    if (videoRef.current) {
-                                        videoRef.current.play().catch(() => { });
+                                style={{
+                                    opacity: 1,
+                                    zIndex: 1
+                                }}
+                                onMouseEnter={(e) => e.target.play()}
+                                onMouseLeave={(e) => {
+                                    e.target.pause();
+                                    e.target.currentTime = 0.1;
+                                }}
+                                // Ensure it's paused initially to show frame
+                                onLoadedData={(e) => {
+                                    if (!isHovered) {
+                                        e.target.pause();
+                                    } else {
+                                        e.target.play();
                                     }
                                 }}
                             />
