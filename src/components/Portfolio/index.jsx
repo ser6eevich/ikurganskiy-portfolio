@@ -115,9 +115,12 @@ const Portfolio = () => {
                         (!project.orientation && project.type === 'video' && project.category === 'REELS');
 
                     const youtubeId = project.type === 'youtube' ? getYoutubeId(project.fileUrl) : null;
-                    const thumbnailUrl = project.thumbnail || (youtubeId
-                        ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
-                        : project.fileUrl);
+
+                    // Fix: If it's a video and has no thumbnail, don't use fileUrl as img src
+                    let thumbnailUrl = project.thumbnail;
+                    if (!thumbnailUrl && youtubeId) {
+                        thumbnailUrl = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
+                    }
 
                     return (
                         <ProjectCard
@@ -150,19 +153,34 @@ const ProjectCard = ({ project, isVertical, thumbnailUrl, onClick }) => {
             <div className={styles.mediaContainer}>
                 {project.type === 'video' ? (
                     <>
-                        <img
-                            src={thumbnailUrl}
-                            alt={project.title}
-                            className={styles.poster}
-                            style={{
-                                opacity: isHovered ? 0 : 1,
-                                transition: 'opacity 0.3s ease',
-                                position: 'absolute',
-                                top: 0, left: 0, width: '100%', height: '100%',
-                                objectFit: 'cover',
-                                zIndex: 1
-                            }}
-                        />
+                        {thumbnailUrl ? (
+                            <img
+                                src={thumbnailUrl}
+                                alt={project.title}
+                                className={styles.poster}
+                                style={{
+                                    opacity: isHovered ? 0 : 1,
+                                    transition: 'opacity 0.3s ease',
+                                    position: 'absolute',
+                                    top: 0, left: 0, width: '100%', height: '100%',
+                                    objectFit: 'cover',
+                                    zIndex: 1
+                                }}
+                            />
+                        ) : (
+                            <div
+                                className={styles.poster}
+                                style={{
+                                    background: '#222',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    opacity: isHovered ? 0 : 1,
+                                }}
+                            >
+                                <span style={{ color: '#444', fontSize: '2rem' }}>🎬</span>
+                            </div>
+                        )}
                         {isHovered && (
                             <video
                                 ref={videoRef}
@@ -182,7 +200,11 @@ const ProjectCard = ({ project, isVertical, thumbnailUrl, onClick }) => {
                         )}
                     </>
                 ) : (
-                    <img src={thumbnailUrl} alt={project.title} className={styles.poster} />
+                    thumbnailUrl ? (
+                        <img src={thumbnailUrl} alt={project.title} className={styles.poster} />
+                    ) : (
+                        <div className={styles.poster} style={{ background: '#222' }} />
+                    )
                 )}
             </div>
 

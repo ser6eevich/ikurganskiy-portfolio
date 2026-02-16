@@ -188,3 +188,43 @@ pm2 restart all
    ```bash
    sudo tail -n 20 /var/log/nginx/error.log
    ```
+
+## 11. Оптимизация медиа (Уменьшение веса сайта)
+
+Если сайт тормозит из-за тяжелых видео или картинок, их можно сжать прямо на сервере одной командой.
+
+### 1. Установка инструментов
+```bash
+sudo apt install ffmpeg imagemagick -y
+```
+
+### 2. Сжатие всех видео (в папке uploads)
+Эта команда уменьшит размер видео (например, с 50МБ до 5-10МБ) без сильной потери качества:
+```bash
+cd /root/ikurganskiy-portfolio/uploads
+# Создаем временную папку
+mkdir -p compressed
+# Сжимаем все mp4
+for f in *.mp4; do ffmpeg -i "$f" -vcodec libx264 -crf 28 "compressed/$f"; done
+# Заменяем старые файлы на сжатые
+mv compressed/* . && rm -rf compressed
+```
+
+### 3. Сжатие всех картинок
+Команда уменьшит вес всех JPG/PNG до 80% качества:
+```bash
+find . -name "*.jpg" -o -name "*.png" | xargs mogrify -resize 1920x1080\> -quality 80
+```
+
+### 4. Оптимизация 3D моделей (.glb)
+Самый большой файл — клавиатура (40МБ). Для 3D моделей лучше использовать онлайн-сервис:
+1. Скачайте модель с сервера через FileZilla.
+2. Загрузите на [gltf.report](https://gltf.report/).
+3. В меню выберите **Compress -> Draco** или **Simplify**.
+4. Замените файл на сервере.
+
+---
+**После любых изменений кода** (например, моего исправления `Portfolio.jsx`):
+1. `git pull`
+2. `npm run build`
+3. `pm2 restart all`
