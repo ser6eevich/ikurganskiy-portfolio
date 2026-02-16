@@ -51,12 +51,12 @@ const BalloonText = ({ theme }) => {
                     font={fontUrl}
                     size={4.5}
                     height={0.1}
-                    curveSegments={128}
+                    curveSegments={32}
                     bevelEnabled
                     bevelThickness={0.3}
                     bevelSize={0.1}
                     bevelOffset={0}
-                    bevelSegments={32}
+                    bevelSegments={8}
                 >
                     IK
                     <meshPhysicalMaterial

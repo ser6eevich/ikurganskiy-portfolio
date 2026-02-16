@@ -90,105 +90,21 @@ const CoverflowCarousel = ({ items, onSelect }) => {
             >
                 {/* Render a window of items around the active index */}
                 {Array.from({ length: VISIBLE_ITEMS * 2 + 1 }).map((_, i) => {
-                    const offset = i - VISIBLE_ITEMS; // -3, -2, -1, 0, 1, 2, 3
+                    const offset = i - VISIBLE_ITEMS;
                     const index = activeIndex + offset;
-
-                    // Modulo logic for infinite loop
-                    // ((index % len) + len) % len handles negative properly
                     const itemIndex = ((index % items.length) + items.length) % items.length;
                     const item = items[itemIndex];
 
-                    const isActive = offset === 0;
-
-                    // 3D Transform Logic
-                    const x = offset * (GAP * 0.8); // Reduced gap spread
-                    const scale = isActive ? 1.2 : 1 - Math.abs(offset) * 0.15;
-                    const rotateY = offset > 0 ? -35 : offset < 0 ? 35 : 0; // Reduced rotation from 45 to 35
-                    const z = isActive ? 200 : -Math.abs(offset) * 150;
-                    const opacity = isActive ? 1 : Math.max(0.3, 0.8 - Math.abs(offset) * 0.2);
-                    const blur = isActive ? 0 : Math.abs(offset) * 3;
-
-                    const isHovered = useRef(false);
-
                     return (
-                        <motion.div
-                            key={index} // Use the virtual index as key for smooth transitions
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                if (isActive) {
-                                    onSelect(item);
-                                } else {
-                                    setActiveIndex(index);
-                                }
-                            }}
-                            initial={false}
-                            animate={{
-                                x: x,
-                                z: z,
-                                rotateY: rotateY,
-                                scale: scale,
-                                opacity: opacity,
-                                filter: `blur(${blur}px)`
-                            }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 180,
-                                damping: 24,
-                                mass: 1
-                            }}
-                            style={{
-                                position: 'absolute',
-                                width: CARD_WIDTH,
-                                height: CARD_HEIGHT,
-                                borderRadius: '20px',
-                                overflow: 'visible', // Allow shadow to bleed out matches container fix
-                                cursor: 'pointer',
-                                background: '#000',
-                                border: isActive ? '3px solid #ccff00' : '1px solid rgba(255,255,255,0.1)',
-                                boxShadow: isActive ? '0 0 50px rgba(204, 255, 0, 0.5)' : '0 10px 40px rgba(0,0,0,0.5)',
-                                zIndex: 1000 - Math.abs(offset) // Explicit z-index
-                            }}
-                        >
-                            <video
-                                src={`/uploads/${item}`}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    borderRadius: '16px', // Inner radius to match
-                                    pointerEvents: 'auto' // Re-enable pointer events for hover
-                                }}
-                                muted
-                                loop
-                                playsInline
-                                ref={(el) => {
-                                    if (el) {
-                                        // Auto-play active, pause others unless hovered
-                                        if (isActive && !isHovered.current) {
-                                            const playPromise = el.play();
-                                            if (playPromise !== undefined) {
-                                                playPromise.catch(error => {
-                                                    // Auto-play was prevented
-                                                });
-                                            }
-                                        } else if (!isActive && !isHovered.current) {
-                                            el.pause();
-                                        }
-                                    }
-                                }}
-                                onMouseEnter={(e) => {
-                                    isHovered.current = true;
-                                    e.target.play();
-                                }}
-                                onMouseLeave={(e) => {
-                                    isHovered.current = false;
-                                    if (!isActive) {
-                                        e.target.pause();
-                                        e.target.currentTime = 0;
-                                    }
-                                }}
-                            />
-                        </motion.div>
+                        <CarouselItem
+                            key={index}
+                            item={item}
+                            offset={offset}
+                            isActive={offset === 0}
+                            dimensions={dimensions}
+                            onSelect={() => onSelect(item)}
+                            onActivate={() => setActiveIndex(index)}
+                        />
                     );
                 })}
             </motion.div>
@@ -197,6 +113,97 @@ const CoverflowCarousel = ({ items, onSelect }) => {
             <ArrowButton direction="left" onClick={handlePrev} />
             <ArrowButton direction="right" onClick={handleNext} />
         </div>
+    );
+};
+
+// --- Sub-component to handle hooks and lazy loading properly ---
+const CarouselItem = ({ item, offset, isActive, dimensions, onSelect, onActivate }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const videoRef = useRef(null);
+    const { width: CARD_WIDTH, height: CARD_HEIGHT } = dimensions;
+
+    // 3D Transform Logic
+    const x = offset * (GAP * 0.8);
+    const scale = isActive ? 1.2 : 1 - Math.abs(offset) * 0.15;
+    const rotateY = offset > 0 ? -35 : offset < 0 ? 35 : 0;
+    const z = isActive ? 200 : -Math.abs(offset) * 150;
+    const opacity = isActive ? 1 : Math.max(0.3, 0.8 - Math.abs(offset) * 0.2);
+    const blur = isActive ? 0 : Math.abs(offset) * 3;
+
+    return (
+        <motion.div
+            onClick={(e) => {
+                e.stopPropagation();
+                if (isActive) {
+                    onSelect();
+                } else {
+                    onActivate();
+                }
+            }}
+            initial={false}
+            animate={{
+                x: x,
+                z: z,
+                rotateY: rotateY,
+                scale: scale,
+                opacity: opacity,
+                filter: `blur(${blur}px)`
+            }}
+            transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 24,
+                mass: 1
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            style={{
+                position: 'absolute',
+                width: CARD_WIDTH,
+                height: CARD_HEIGHT,
+                borderRadius: '20px',
+                overflow: 'visible',
+                cursor: 'pointer',
+                background: '#000',
+                border: isActive ? '3px solid #ccff00' : '1px solid rgba(255,255,255,0.1)',
+                boxShadow: isActive ? '0 0 50px rgba(204, 255, 0, 0.5)' : '0 10px 40px rgba(0,0,0,0.5)',
+                zIndex: 1000 - Math.abs(offset)
+            }}
+        >
+            {/* Lazy load: only render video if active or hovered */}
+            {(isActive || isHovered) ? (
+                <video
+                    ref={videoRef}
+                    src={`/uploads/${item}`}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '16px',
+                        pointerEvents: 'auto'
+                    }}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                />
+            ) : (
+                <div
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        background: '#111',
+                        borderRadius: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#333'
+                    }}
+                >
+                    <span style={{ fontSize: '2rem' }}>🎬</span>
+                </div>
+            )}
+        </motion.div>
     );
 };
 
